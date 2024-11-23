@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Calculator</h5>
+                        <div class="calculator">
+                            <input type="text" id="result" class="form-control mb-3" readonly>
+                            <div class="row">
+                                <button class="btn btn-light col-3" onclick="appendValue('1')">1</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('2')">2</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('3')">3</button>
+                                <button class="btn btn-warning col-3" onclick="appendValue('+')">+</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-light col-3" onclick="appendValue('4')">4</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('5')">5</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('6')">6</button>
+                                <button class="btn btn-warning col-3" onclick="appendValue('-')">-</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-light col-3" onclick="appendValue('7')">7</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('8')">8</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('9')">9</button>
+                                <button class="btn btn-warning col-3" onclick="appendValue('*')">*</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-light col-3" onclick="appendValue('0')">0</button>
+                                <button class="btn btn-light col-3" onclick="appendValue('.')">.</button>
+                                <button class="btn btn-danger col-3" onclick="clearResult()">C</button>
+                                <button class="btn btn-warning col-3" onclick="appendValue('/')">/</button>
+                            </div>
+                            <div class="row mt-3">
+                                <button class="btn btn-success col-12" onclick="calculateResult()">=</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

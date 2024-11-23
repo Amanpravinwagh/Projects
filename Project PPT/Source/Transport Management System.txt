@@ -1,0 +1,37 @@
+import java.util.Scanner;
+
+class TransportCompany {
+    private String companyName;
+    private String location;
+    private int numberOfVehicles;
+
+    public TransportCompany(String name, String loc, int vehicles) {
+        companyName = name;
+        location = loc;
+        numberOfVehicles = vehicles;
+    }
+    public void displayCompanyDetails() {
+        System.out.println("Company Name: " + companyName);
+        System.out.println("Location: " + location);
+        System.out.println("Number of Vehicles: " + numberOfVehicles);
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Enter Company Name: ");
+        String name = scanner.nextLine();
+        
+        System.out.println("Enter Location: ");
+        String loc = scanner.nextLine();
+        System.out.println("Enter Number of Vehicles: ");
+        int vehicles = scanner.nextInt();
+        
+        TransportCompany company = new TransportCompany(name, loc, vehicles);
+        System.out.println("\nTransport Company Details:");
+        company.displayCompanyDetails();
+        
+        scanner.close();
+    }
+}

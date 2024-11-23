@@ -1,0 +1,168 @@
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+
+class Book {
+    int id;
+    String title;
+    String author;
+    boolean isIssued;
+
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isIssued = false;
+    }
+}
+
+class Library {
+    List<Book> books = new ArrayList<>();
+    Map<Integer, String> issuedBooks = new HashMap<>();
+
+    // Add books to library
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    // Issue a book
+    public void issueBook(int bookId, String memberName, JTextArea displayArea) {
+        for (Book book : books) {
+            if (book.id == bookId && !book.isIssued) {
+                book.isIssued = true;
+                issuedBooks.put(bookId, memberName);
+                displayArea.setText("Book issued: " + book.title + " to " + memberName);
+                return;
+            }
+        }
+        displayArea.setText("Book not available or already issued.");
+    }
+
+    // Return a book
+    public void returnBook(int bookId, JTextArea displayArea) {
+        if (issuedBooks.containsKey(bookId)) {
+            for (Book book : books) {
+                if (book.id == bookId && book.isIssued) {
+                    book.isIssued = false;
+                    issuedBooks.remove(bookId);
+                    displayArea.setText("Book returned: " + book.title);
+                    return;
+                }
+            }
+        } else {
+            displayArea.setText("Book was not issued.");
+        }
+    }
+
+    // View all books
+    public void viewBooks(JTextArea displayArea) {
+        StringBuilder sb = new StringBuilder();
+        for (Book book : books) {
+            String status = book.isIssued ? "Issued" : "Available";
+            sb.append("Book ID: ").append(book.id)
+              .append(", Title: ").append(book.title)
+              .append(", Status: ").append(status)
+              .append("\n");
+        }
+        displayArea.setText(sb.toString());
+    }
+}
+
+public class LibraryApp extends JFrame implements ActionListener {
+    Library library;
+    JTextField bookIdField, memberField;
+    JTextArea displayArea;
+    JButton issueButton, returnButton, viewButton;
+
+    public LibraryApp() {
+        library = new Library();
+        library.addBook(new Book(1, "Harry Poter", "J. K. Rowling"));
+        library.addBook(new Book(2, "War and Peace", "Leo Tolstoy"));
+        library.addBook(new Book(3, "Waste Land", "T.S Eliot"));
+        library.addBook(new Book(4, "Teasure Island", "R.L Stevenson"));
+        library.addBook(new Book(5, "Time Machine", "H.G Wells"));
+        library.addBook(new Book(6, "Romeo and Jullet", "Willam Shakesphere"));
+
+        // Creating the frame
+        setTitle("Library Book Management System");
+        setSize(600, 600);
+        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Labels
+        JLabel bookIdLabel = new JLabel("Book ID:");
+        bookIdLabel.setBounds(20, 20, 100, 30);
+        add(bookIdLabel);
+
+        JLabel memberLabel = new JLabel("Member Name:");
+        memberLabel.setBounds(20, 60, 100, 30);
+        add(memberLabel);
+
+        // Text Fields
+        bookIdField = new JTextField();
+        bookIdField.setBounds(120, 20, 100, 30);
+        add(bookIdField);
+
+        memberField = new JTextField();
+        memberField.setBounds(120, 60, 100, 30);
+        add(memberField);
+
+        // Buttons
+        issueButton = new JButton("Issue Book");
+        issueButton.setBounds(20, 100, 150, 30);
+        issueButton.addActionListener(this);
+        add(issueButton);
+
+        returnButton = new JButton("Return Book");
+        returnButton.setBounds(20, 140, 150, 30);
+        returnButton.addActionListener(this);
+        add(returnButton);
+
+        viewButton = new JButton("View Books");
+        viewButton.setBounds(20, 180, 150, 30);
+        viewButton.addActionListener(this);
+        add(viewButton);
+
+        // Text Area to display output
+        displayArea = new JTextArea();
+        displayArea.setBounds(180, 100, 280, 200);
+        displayArea.setEditable(false);
+        add(displayArea);
+
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int bookId;
+        String memberName;
+
+        // Issue Book
+        if (e.getSource() == issueButton) {
+            try {
+                bookId = Integer.parseInt(bookIdField.getText());
+                memberName = memberField.getText();
+                library.issueBook(bookId, memberName, displayArea);
+            } catch (NumberFormatException ex) {
+                displayArea.setText("Please enter a valid book ID.");
+            }
+
+        // Return Book
+        } else if (e.getSource() == returnButton) {
+            try {
+                bookId = Integer.parseInt(bookIdField.getText());
+                library.returnBook(bookId, displayArea);
+            } catch (NumberFormatException ex) {
+                displayArea.setText("Please enter a valid book ID.");
+            }
+
+        // View Books
+        } else if (e.getSource() == viewButton) {
+            library.viewBooks(displayArea);
+        }
+    }
+
+    public static void main(String[] args) {
+        new LibraryApp();
+    }
+}

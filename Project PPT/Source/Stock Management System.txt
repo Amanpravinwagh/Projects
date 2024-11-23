@@ -1,0 +1,65 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class StockManagementSystem {
+    private static Map<String, Integer> stock = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("1. Add Stock");
+            System.out.println("2. Remove Stock");
+            System.out.println("3. View Stock");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addStock(scanner);
+                    break;
+                case 2:
+                    removeStock(scanner);
+                    break;
+                case 3:
+                    viewStock();
+                    break;
+                case 4:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+            }
+        } while (choice != 4);
+    }
+
+    private static void addStock(Scanner scanner) {
+        System.out.print("Enter the item name: ");
+        String item = scanner.next();
+        System.out.print("Enter the quantity: ");
+        int quantity = scanner.nextInt();
+        stock.put(item, quantity);
+        System.out.println("Stock added successfully!");
+    }
+
+    private static void removeStock(Scanner scanner) {
+        System.out.print("Enter the item name to remove: ");
+        String item = scanner.next();
+        if (stock.containsKey(item)) {
+            stock.remove(item);
+            System.out.println("Stock removed successfully!");
+        } else {
+            System.out.println("Item not found in stock!");
+        }
+    }
+
+    private static void viewStock() {
+        System.out.println("Current Stock:");
+        for (Map.Entry<String, Integer> entry : stock.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
